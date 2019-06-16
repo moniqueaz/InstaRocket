@@ -25,6 +25,10 @@ class Feed extends Component {
   registerToSocket = () => {
     const socket = io('http://localhost:4242')
 
+    socket.on('post', newPost =>{
+      this.setState({ feed: [newPost, ...this.state.feed]})
+    })
+
     socket.on('like', likedPost =>{
       this.setState({
         feed: this.state.feed.map(post =>
@@ -32,11 +36,6 @@ class Feed extends Component {
         )
       })
     })
-    
-    socket.on('post', newPost =>{
-      this.setState({ feed: [newPost, ...this.state.feed]})
-    })
-
   }
 
   handleLike = id =>{
